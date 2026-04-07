@@ -15,9 +15,9 @@ class Profile(models.Model):
     file = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
     location = models.CharField(max_length=30, blank=True)
     tel = models.CharField(max_length=20, blank=True)
-    description = models.TextField(max_length=400, blank=True)
+    description = models.TextField(blank=True)
     working_hours = models.CharField(max_length=30,blank=True)
-    type = models.CharField(max_length=20, choices=TYPE_CHOICES)
+    profile_type = models.CharField(max_length=20, choices=TYPE_CHOICES)
     email = models.EmailField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
