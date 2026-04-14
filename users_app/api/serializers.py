@@ -2,8 +2,6 @@ from rest_framework import serializers
 from ..models import CustomUser
 
 
-
-
 class UserSerializer(serializers.ModelSerializer):
     user_id = serializers.IntegerField(source='id', read_only=True)
     token = serializers.SerializerMethodField()
