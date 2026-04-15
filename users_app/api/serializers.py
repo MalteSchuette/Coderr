@@ -6,6 +6,8 @@ class UserSerializer(serializers.ModelSerializer):
     user_id = serializers.IntegerField(source='id', read_only=True)
     token = serializers.SerializerMethodField()
     repeated_password = serializers.CharField(write_only=True)
+    type = serializers.CharField(source='profile_type', required=True)
+
 
     def get_token(self, obj):
         from rest_framework.authtoken.models import Token
@@ -23,7 +25,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['token', 'username', 'email', 'user_id', 'password', 'repeated_password', 'profile_type']
+        fields = ['token', 'username', 'email', 'user_id', 'password', 'repeated_password', 'type']
         extra_kwargs = {
             'password': {'write_only': True},
             'profile_type': {'write_only': False}
