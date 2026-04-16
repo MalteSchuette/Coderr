@@ -19,7 +19,11 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from offers_app.api.views import OfferDetailRetrieveView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('users_app.api.urls')),
+    path('api/offers/', include('offers_app.api.urls')),
+    path('api/offerdetails/<int:pk>/', OfferDetailRetrieveView.as_view(), name='offerdetail-detail'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -3,6 +3,7 @@ from ..models import CustomUser
 
 
 class UserSerializer(serializers.ModelSerializer):
+    
     user_id = serializers.IntegerField(source='id', read_only=True)
     token = serializers.SerializerMethodField()
     repeated_password = serializers.CharField(write_only=True)
@@ -33,7 +34,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-
 
     type = serializers.CharField(source='profile_type', read_only=True)
     created_at = serializers.DateTimeField(source='date_joined', read_only=True)
