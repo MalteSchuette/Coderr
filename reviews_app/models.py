@@ -16,6 +16,9 @@ class Review(models.Model):
     class Meta:
         unique_together = ('business_user', 'reviewer')
         ordering = ['-created_at']
+        verbose_name = 'Review'
+        verbose_name_plural = 'Reviews'
     
     def __str__(self):
-        return self.title
+        return f"{self.reviewer} → {self.business_user}"
+    

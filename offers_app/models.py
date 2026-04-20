@@ -21,6 +21,11 @@ class Offer(models.Model):
 
     def __str__(self):
         return self.title
+    
+    class Meta:
+        verbose_name = 'Offer'
+        verbose_name_plural = 'Offers'
+        ordering = ['-created_at']
 
 class OfferDetail(models.Model):
     offer = models.ForeignKey(Offer, on_delete=models.CASCADE, related_name='offer_details')
@@ -33,3 +38,8 @@ class OfferDetail(models.Model):
 
     def __str__(self):
         return self.title
+    
+    class Meta:
+        verbose_name = 'Offer Detail'
+        verbose_name_plural = 'Offer Details'
+        ordering = ['offer_type']

@@ -7,6 +7,7 @@ from .serializers import (
     OfferListSerializer, 
     OfferRetrieveSerializer
 )
+from .permissions import IsBusinessUser, IsOwnerOrReadOnly
 
 
 class OfferListCreateView(generics.ListCreateAPIView):
@@ -14,7 +15,7 @@ class OfferListCreateView(generics.ListCreateAPIView):
 
     def get_permissions(self):
         if self.request.method == 'POST':
-            return [permissions.IsAuthenticated()]
+            return [permissions.IsAuthenticated(), IsBusinessUser()]
         return [permissions.AllowAny()]
 
     def get_serializer_class(self):
@@ -28,6 +29,7 @@ class OfferListCreateView(generics.ListCreateAPIView):
 
 class OfferRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Offer.objects.all()
+    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
 
     def get_permissions(self):
         if self.request.method == 'GET':
@@ -42,12 +44,12 @@ class OfferRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     def perform_update(self, serializer):
         offer = self.get_object()
         if offer.user != self.request.user:
-            raise PermissionDenied("Nur der Ersteller darf dieses Angebot bearbeiten.")
+            raise PermissionDenied("Only the creator is allowed to edit this offer.")
         serializer.save()
 
     def perform_destroy(self, instance):
         if instance.user != self.request.user:
-            raise PermissionDenied("Nur der Ersteller darf dieses Angebot löschen.")
+            raise PermissionDenied("Only the creator is allowed to delete this offer.")
         instance.delete()
 
 

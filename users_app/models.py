@@ -16,4 +16,10 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
+    
+
+    class Meta(AbstractUser.Meta):
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
+        ordering = ['username']
 

@@ -19,6 +19,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from core.views import BaseInfoView
 from offers_app.api.views import OfferDetailRetrieveView
 
 urlpatterns = [
@@ -26,4 +27,7 @@ urlpatterns = [
     path('api/', include('users_app.api.urls')),
     path('api/offers/', include('offers_app.api.urls')),
     path('api/offerdetails/<int:pk>/', OfferDetailRetrieveView.as_view(), name='offerdetail-detail'),
+    path('api/orders/', include('orders_app.api.urls')),
+    path('api/reviews/', include('reviews_app.api.urls')),
+    path('api/base-info/', BaseInfoView.as_view(), name='base-info'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
