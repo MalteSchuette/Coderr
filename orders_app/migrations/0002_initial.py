@@ -19,16 +19,19 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='order',
             name='business_user',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='business_orders', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL,
+                                    related_name='business_orders', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='order',
             name='customer_user',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='customer_orders', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL,
+                                    related_name='customer_orders', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='order',
             name='offer_detail',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='offers_app.offerdetail'),
+            field=models.ForeignKey(
+                null=True, on_delete=django.db.models.deletion.SET_NULL, to='offers_app.offerdetail'),
         ),
     ]

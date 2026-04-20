@@ -18,7 +18,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='customuser',
             name='file',
-            field=models.ImageField(blank=True, null=True, upload_to='profile_pictures/'),
+            field=models.ImageField(
+                blank=True, null=True, upload_to='profile_pictures/'),
         ),
         migrations.AddField(
             model_name='customuser',
@@ -38,7 +39,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='customuser',
             name='profile_type',
-            field=models.CharField(blank=True, choices=[('customer', 'Customer'), ('business', 'Business')], max_length=20),
+            field=models.CharField(blank=True, choices=[(
+                'customer', 'Customer'), ('business', 'Business')], max_length=20),
         ),
         migrations.DeleteModel(
             name='Profile',

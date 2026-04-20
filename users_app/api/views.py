@@ -23,7 +23,8 @@ class LoginView(ObtainAuthToken):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data, context={'request': request})
+        serializer = self.serializer_class(
+            data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         token, _ = Token.objects.get_or_create(user=user)
@@ -33,7 +34,7 @@ class LoginView(ObtainAuthToken):
             'email': user.email,
             'user_id': user.id
         })
-    
+
 
 class ProfileDetailView(generics.RetrieveUpdateAPIView):
     queryset = CustomUser.objects.all()
@@ -55,5 +56,3 @@ class CustomerProfilesView(generics.ListAPIView):
 
     def get_queryset(self):
         return CustomUser.objects.filter(profile_type='customer')
-
-

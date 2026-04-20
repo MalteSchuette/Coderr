@@ -1,5 +1,4 @@
 from rest_framework import generics, permissions
-from rest_framework.exceptions import PermissionDenied
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
@@ -19,11 +18,12 @@ class OrderListCreateView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(customer_user=self.request.user)
-        
+
+
 class OrderRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
-    
+
     def get_permissions(self):
         if self.request.method == 'DELETE':
             return [permissions.IsAuthenticated(), IsAdminUser()]
@@ -35,21 +35,20 @@ class OrderRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
 class OrderCountView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
-
     def get(self, request, business_user_id):
         count = Order.objects.filter(
-            business_user=business_user_id, 
+            business_user=business_user_id,
             status='in_progress'
         ).count()
         return Response({'order_count': count})
-    
+
 
 class CompletedOrderCountView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, business_user_id):
         count = Order.objects.filter(
-            business_user=business_user_id, 
+            business_user=business_user_id,
             status='completed'
         ).count()
         return Response({'completed_order_count': count})

@@ -3,13 +3,14 @@ from rest_framework import serializers
 from offers_app.models import OfferDetail
 from ..models import Order
 
+
 class OrderSerializer(serializers.ModelSerializer):
     offer_detail_id = serializers.IntegerField(write_only=True)
 
     def create(self, validated_data):
         offer_detail_id = validated_data.pop('offer_detail_id')
         offer_detail = OfferDetail.objects.get(id=offer_detail_id)
-        
+
         order = Order.objects.create(
             offer_detail=offer_detail,
             title=offer_detail.title,

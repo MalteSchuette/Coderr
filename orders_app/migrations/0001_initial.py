@@ -14,14 +14,17 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Order',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=40)),
                 ('revisions', models.PositiveIntegerField()),
                 ('delivery_time_in_days', models.PositiveIntegerField()),
                 ('price', models.PositiveIntegerField()),
                 ('features', models.JSONField(blank=True, default=list)),
-                ('offer_type', models.CharField(choices=[('basic', 'Basic'), ('standard', 'Standard'), ('premium', 'Premium')], max_length=20)),
-                ('status', models.CharField(choices=[('in_progress', 'In Progress'), ('completed', 'Completed'), ('cancelled', 'Cancelled')], default='in_progress', max_length=20)),
+                ('offer_type', models.CharField(choices=[
+                 ('basic', 'Basic'), ('standard', 'Standard'), ('premium', 'Premium')], max_length=20)),
+                ('status', models.CharField(choices=[('in_progress', 'In Progress'), (
+                    'completed', 'Completed'), ('cancelled', 'Cancelled')], default='in_progress', max_length=20)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
             ],

@@ -4,6 +4,8 @@ from .views import OrderListCreateView, OrderRetrieveUpdateDestroyView, OrderCou
 urlpatterns = [
     path('', OrderListCreateView.as_view(), name='order-list-create'),
     path('<int:pk>/', OrderRetrieveUpdateDestroyView.as_view(), name='order-detail'),
-    path('order-count/<int:business_user_id>/', OrderCountView.as_view(), name='order-count'),
-    path('completed-order-count/<int:business_user_id>/', CompletedOrderCountView.as_view(), name='completed-order-count'),
+    path('order-count/<int:business_user_id>/',
+         OrderCountView.as_view(), name='order-count'),
+    path('completed-order-count/<int:business_user_id>/',
+         CompletedOrderCountView.as_view(), name='completed-order-count'),
 ]

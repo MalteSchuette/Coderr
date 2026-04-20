@@ -2,9 +2,9 @@ from rest_framework import generics, permissions
 from rest_framework.exceptions import PermissionDenied
 from ..models import Offer, OfferDetail
 from .serializers import (
-    OfferCreateSerializer, 
-    OfferDetailSerializer, 
-    OfferListSerializer, 
+    OfferCreateSerializer,
+    OfferDetailSerializer,
+    OfferListSerializer,
     OfferRetrieveSerializer
 )
 from .permissions import IsBusinessUser, IsOwnerOrReadOnly
@@ -44,12 +44,14 @@ class OfferRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     def perform_update(self, serializer):
         offer = self.get_object()
         if offer.user != self.request.user:
-            raise PermissionDenied("Only the creator is allowed to edit this offer.")
+            raise PermissionDenied(
+                "Only the creator is allowed to edit this offer.")
         serializer.save()
 
     def perform_destroy(self, instance):
         if instance.user != self.request.user:
-            raise PermissionDenied("Only the creator is allowed to delete this offer.")
+            raise PermissionDenied(
+                "Only the creator is allowed to delete this offer.")
         instance.delete()
 
 

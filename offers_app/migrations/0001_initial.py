@@ -14,9 +14,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Offer',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=40)),
-                ('image', models.ImageField(blank=True, null=True, upload_to='offer_pictures/')),
+                ('image', models.ImageField(blank=True,
+                 null=True, upload_to='offer_pictures/')),
                 ('description', models.TextField(blank=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
@@ -25,13 +27,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='OfferDetail',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=40)),
                 ('revisions', models.PositiveIntegerField()),
                 ('delivery_time_in_days', models.PositiveIntegerField()),
                 ('price', models.PositiveIntegerField()),
                 ('features', models.JSONField(blank=True, default=list)),
-                ('offer_type', models.CharField(choices=[('basic', 'Basic'), ('standard', 'Standard'), ('premium', 'Premium')], max_length=20)),
+                ('offer_type', models.CharField(choices=[
+                 ('basic', 'Basic'), ('standard', 'Standard'), ('premium', 'Premium')], max_length=20)),
             ],
         ),
     ]
