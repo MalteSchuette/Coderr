@@ -34,10 +34,16 @@ class OfferListSerializer(serializers.ModelSerializer):
     user_details = OfferUserSerializer(source='user', read_only=True)
 
     def get_min_price(self, obj):
-        return obj.offer_details.order_by('price').first().price
+        details = obj.offer_details.all()
+        if not details:
+            return None
+        return min(detail.price for detail in details)
 
     def get_min_delivery_time(self, obj):
-        return obj.offer_details.order_by('delivery_time_in_days').first().delivery_time_in_days
+        details = obj.offer_details.all()
+        if not details:
+            return None
+        return min(detail.delivery_time_in_days for detail in details)
 
     class Meta:
         model = Offer
@@ -53,10 +59,16 @@ class OfferRetrieveSerializer(serializers.ModelSerializer):
     user_details = OfferUserSerializer(source='user', read_only=True)
 
     def get_min_price(self, obj):
-        return obj.offer_details.order_by('price').first().price
+        details = obj.offer_details.all()
+        if not details:
+            return None
+        return min(detail.price for detail in details)
 
     def get_min_delivery_time(self, obj):
-        return obj.offer_details.order_by('delivery_time_in_days').first().delivery_time_in_days
+        details = obj.offer_details.all()
+        if not details:
+            return None
+        return min(detail.delivery_time_in_days for detail in details)
 
     class Meta:
         model = Offer

@@ -5,11 +5,15 @@ from ..models import Review
 class ReviewSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
-        reviewer = self.context['request'].user
-        business_user = data.get('business_user')
-        if Review.objects.filter(reviewer=reviewer, business_user=business_user).exists():
-            raise serializers.ValidationError(
-                "Du hast bereits eine Bewertung für diesen Business User abgegeben.")
+        if self.instance is None:
+            reviewer = self.context['request'].user
+            business_user = data.get('business_user')
+            if Review.objects.filter(
+                reviewer=reviewer,
+                business_user=business_user
+            ).exists():
+                raise serializers.ValidationError(
+                    "Du hast bereits eine Bewertung für diesen Business User abgegeben.")
         return data
 
     class Meta:

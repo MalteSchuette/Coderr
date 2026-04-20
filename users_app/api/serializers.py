@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
+
 from ..models import CustomUser
 
 
@@ -10,7 +12,6 @@ class UserSerializer(serializers.ModelSerializer):
     type = serializers.CharField(source='profile_type', required=True)
 
     def get_token(self, obj):
-        from rest_framework.authtoken.models import Token
         token, _ = Token.objects.get_or_create(user=obj)
         return token.key
 

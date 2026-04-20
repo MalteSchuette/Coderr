@@ -9,10 +9,15 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         offer_detail_id = validated_data.pop('offer_detail_id')
-        offer_detail = OfferDetail.objects.get(id=offer_detail_id)
+        try:
+            offer_detail = OfferDetail.objects.get(id=offer_detail_id)
+        except OfferDetail.DoesNotExist:
+            raise serializers.ValidationError(
+                {'offer_detail_id': 'OfferDetail does not exist.'})
 
         order = Order.objects.create(
             offer_detail=offer_detail,
+            business_user=offer_detail.offer.user,
             title=offer_detail.title,
             revisions=offer_detail.revisions,
             delivery_time_in_days=offer_detail.delivery_time_in_days,

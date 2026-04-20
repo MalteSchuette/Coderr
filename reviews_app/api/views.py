@@ -6,7 +6,9 @@ from .serializers import ReviewSerializer
 
 
 class ReviewListCreateView(generics.ListCreateAPIView):
-    queryset = Review.objects.all()
+    queryset = Review.objects.select_related(
+        'business_user', 'reviewer'
+    ).all()
     serializer_class = ReviewSerializer
 
     def get_permissions(self):
@@ -19,6 +21,8 @@ class ReviewListCreateView(generics.ListCreateAPIView):
 
 
 class ReviewRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Review.objects.all()
+    queryset = Review.objects.select_related(
+        'business_user', 'reviewer'
+    ).all()
     serializer_class = ReviewSerializer
     permission_classes = [permissions.IsAuthenticated, IsReviewerOrReadOnly]
