@@ -118,4 +118,5 @@ class OfferCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Offer
-        fields = ['title', 'image', 'description', 'details']
+        fields = ['id','title', 'image', 'description', 'details']
+        read_only_fields = ['id']

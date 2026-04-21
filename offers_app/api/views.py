@@ -28,7 +28,7 @@ class OfferListCreateView(generics.ListCreateAPIView):
         ).annotate(
             annotated_min_price=Min('offer_details__price'),
             annotated_min_delivery=Min('offer_details__delivery_time_in_days')
-        ).all()
+        ).order_by('-created_at')
 
     def get_permissions(self):
         if self.request.method == 'POST':
