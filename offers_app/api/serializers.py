@@ -16,6 +16,7 @@ class OfferDetailSerializer(serializers.ModelSerializer):
         model = OfferDetail
         fields = ['id', 'title', 'revisions',
                   'delivery_time_in_days', 'price', 'features', 'offer_type']
+        read_only_fields = ['id']
 
 
 class OfferDetailMinimalSerializer(serializers.ModelSerializer):

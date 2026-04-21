@@ -4,7 +4,7 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
 
 from .permissions import IsOwnerOrReadOnly
-from .serializers import UserSerializer, ProfileSerializer
+from .serializers import ProfileListSerializer, UserSerializer, ProfileSerializer, CustomerProfileListSerializer
 from ..models import CustomUser
 
 
@@ -15,7 +15,6 @@ class RegistrationView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         user = serializer.save()
-        Token.objects.create(user=user)
 
 
 class LoginView(ObtainAuthToken):
@@ -43,7 +42,7 @@ class ProfileDetailView(generics.RetrieveUpdateAPIView):
 
 
 class BusinessProfilesView(generics.ListAPIView):
-    serializer_class = ProfileSerializer
+    serializer_class = ProfileListSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
@@ -51,7 +50,7 @@ class BusinessProfilesView(generics.ListAPIView):
 
 
 class CustomerProfilesView(generics.ListAPIView):
-    serializer_class = ProfileSerializer
+    serializer_class = CustomerProfileListSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
