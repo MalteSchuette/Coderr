@@ -5,9 +5,16 @@ from ..models import Order
 
 
 class OrderSerializer(serializers.ModelSerializer):
+    """Serializer for Order creation and representation.
+
+    On creation, all order fields are derived from the referenced OfferDetail;
+    only offer_detail_id and status can be supplied by the client.
+    """
+
     offer_detail_id = serializers.IntegerField(write_only=True)
 
     def create(self, validated_data):
+        """Create an Order by copying all relevant fields from the referenced OfferDetail."""
         offer_detail_id = validated_data.pop('offer_detail_id')
         try:
             offer_detail = OfferDetail.objects.get(id=offer_detail_id)
@@ -15,6 +22,7 @@ class OrderSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 {'offer_detail_id': 'OfferDetail does not exist.'})
 
+        # Snapshot OfferDetail fields so the order remains consistent even if the offer changes later
         order = Order.objects.create(
             offer_detail=offer_detail,
             business_user=offer_detail.offer.user,

@@ -3,10 +3,14 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
-# Create your models here.
 
 
 class Review(models.Model):
+    """Represents a rating and written review left by a customer for a business user.
+
+    Each reviewer can leave at most one review per business user (unique_together constraint).
+    """
+
     business_user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='reviews_received')
     reviewer = models.ForeignKey(
@@ -24,4 +28,5 @@ class Review(models.Model):
         verbose_name_plural = 'Reviews'
 
     def __str__(self):
+        """Return a human-readable representation showing reviewer and business user."""
         return f"{self.reviewer} → {self.business_user}"

@@ -15,10 +15,10 @@ OFFER_TYPE_CHOICES = [
     ('premium', 'Premium'),
 ]
 
-# Create your models here.
-
 
 class Order(models.Model):
+    """Represents a placed order created from an OfferDetail, linking customer and business user."""
+
     offer_detail = models.ForeignKey(
         'offers_app.OfferDetail', on_delete=models.SET_NULL, null=True)
     customer_user = models.ForeignKey(
@@ -37,6 +37,7 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
+        """Return the order title as string representation."""
         return self.title
 
     class Meta:

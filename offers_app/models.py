@@ -3,8 +3,6 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-# Create your models here.
-
 OFFER_TYPE_CHOICES = [
     ('basic', 'Basic'),
     ('standard', 'Standard'),
@@ -13,6 +11,8 @@ OFFER_TYPE_CHOICES = [
 
 
 class Offer(models.Model):
+    """Represents a service offer created by a business user."""
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=40)
     image = models.ImageField(
@@ -22,6 +22,7 @@ class Offer(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
+        """Return the offer title as string representation."""
         return self.title
 
     class Meta:
@@ -31,6 +32,8 @@ class Offer(models.Model):
 
 
 class OfferDetail(models.Model):
+    """Represents a pricing tier (basic/standard/premium) for an Offer."""
+
     offer = models.ForeignKey(
         Offer, on_delete=models.CASCADE, related_name='offer_details')
     title = models.CharField(max_length=40)
@@ -41,6 +44,7 @@ class OfferDetail(models.Model):
     offer_type = models.CharField(max_length=20, choices=OFFER_TYPE_CHOICES)
 
     def __str__(self):
+        """Return the detail title as string representation."""
         return self.title
 
     class Meta:

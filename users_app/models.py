@@ -8,6 +8,8 @@ TYPE_CHOICES = [
 
 
 class CustomUser(AbstractUser):
+    """Extended user model that adds profile type and additional contact/profile fields."""
+
     profile_type = models.CharField(
         max_length=20, choices=TYPE_CHOICES, blank=True)
     file = models.ImageField(
@@ -18,6 +20,7 @@ class CustomUser(AbstractUser):
     working_hours = models.CharField(max_length=30, blank=True)
 
     def __str__(self):
+        """Return the username as string representation."""
         return self.username
 
     class Meta(AbstractUser.Meta):

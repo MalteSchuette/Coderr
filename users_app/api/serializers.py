@@ -5,6 +5,7 @@ from ..models import CustomUser
 
 
 class UserSerializer(serializers.ModelSerializer):
+    """Serializer for user registration; includes token in the response and validates password confirmation."""
 
     user_id = serializers.IntegerField(source='id', read_only=True)
     token = serializers.SerializerMethodField()
@@ -12,16 +13,19 @@ class UserSerializer(serializers.ModelSerializer):
     type = serializers.CharField(source='profile_type', required=True)
 
     def get_token(self, obj):
+        """Retrieve or create an auth token for the user and return its key."""
         token, _ = Token.objects.get_or_create(user=obj)
         return token.key
 
     def validate(self, data):
+        """Ensure password and repeated_password match before proceeding."""
         if data['password'] != data.pop('repeated_password'):
             raise serializers.ValidationError(
                 "Passwörter stimmen nicht überein!")
         return data
 
     def create(self, validated_data):
+        """Create a new user with a hashed password via create_user."""
         user = CustomUser.objects.create_user(**validated_data)
         return user
 
@@ -36,6 +40,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
+    """Full profile serializer used for retrieving and updating a single user profile."""
 
     user = serializers.IntegerField(source='id', read_only=True)
     type = serializers.CharField(source='profile_type', read_only=True)
@@ -49,6 +54,8 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 class ProfileListSerializer(serializers.ModelSerializer):
+    """Lightweight profile serializer for listing business users."""
+
     user = serializers.IntegerField(source='id', read_only=True)
     type = serializers.CharField(source='profile_type', read_only=True)
 
@@ -56,9 +63,11 @@ class ProfileListSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ['user', 'username', 'first_name', 'last_name', 'file',
                   'location', 'tel', 'description', 'working_hours', 'type']
-        
+
 
 class CustomerProfileListSerializer(serializers.ModelSerializer):
+    """Lightweight profile serializer for listing customer users."""
+
     user = serializers.IntegerField(source='id', read_only=True)
     type = serializers.CharField(source='profile_type', read_only=True)
     uploaded_at = serializers.DateTimeField(
@@ -66,5 +75,5 @@ class CustomerProfileListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['user', 'username', 'first_name', 
+        fields = ['user', 'username', 'first_name',
                   'last_name', 'file', 'uploaded_at', 'type']
