@@ -1,11 +1,13 @@
+from django.shortcuts import get_object_or_404
+from django.contrib.auth import get_user_model
 from rest_framework import generics, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
 from ..models import Order
 from .serializers import OrderSerializer
 from .permissions import IsCustomerUser, IsBusinessOwner, IsAdminUser
 
+User = get_user_model()
 
 class OrderListCreateView(generics.ListCreateAPIView):
     queryset = Order.objects.all()
@@ -36,6 +38,7 @@ class OrderCountView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, business_user_id):
+        get_object_or_404(User, id=business_user_id)
         count = Order.objects.filter(
             business_user=business_user_id,
             status='in_progress'
@@ -47,6 +50,7 @@ class CompletedOrderCountView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, business_user_id):
+        get_object_or_404(User, id=business_user_id)
         count = Order.objects.filter(
             business_user=business_user_id,
             status='completed'
