@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 
 from core.views import BaseInfoView
 from offers_app.api.views import OfferDetailRetrieveView
+from orders_app.api.views import OrderCountView, CompletedOrderCountView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,5 +31,9 @@ urlpatterns = [
          OfferDetailRetrieveView.as_view(), name='offerdetail-detail'),
     path('api/orders/', include('orders_app.api.urls')),
     path('api/reviews/', include('reviews_app.api.urls')),
+    path('api/order-count/<int:business_user_id>/',
+         OrderCountView.as_view(), name='order-count'),
+    path('api/completed-order-count/<int:business_user_id>/',
+         CompletedOrderCountView.as_view(), name='completed-order-count'),
     path('api/base-info/', BaseInfoView.as_view(), name='base-info'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

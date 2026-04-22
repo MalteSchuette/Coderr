@@ -164,3 +164,36 @@ class OfferDetailTest(APITestCase):
         self.client.force_authenticate(user=self.other_business_user)
         response = self.client.delete(self.offer_url)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_patch_offer_detail_without_offer_type(self):
+        self.client.force_authenticate(user=self.business_user)
+        response = self.client.patch(
+            self.offer_url,
+            {
+                'details': [
+                    {
+                        'title': 'Updated Basic',
+                        'revisions': 3,
+                    }
+                ]
+            },
+            format='json'
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_patch_offer_detail_with_invalid_offer_type(self):
+        self.client.force_authenticate(user=self.business_user)
+        response = self.client.patch(
+            self.offer_url,
+            {
+                'details': [
+                    {
+                        'title': 'Updated Basic',
+                        'revisions': 3,
+                        'offer_type': 'invalid_type'  
+                    }
+                ]
+            },
+            format='json'
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

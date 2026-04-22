@@ -109,11 +109,17 @@ class OfferCreateSerializer(serializers.ModelSerializer):
 
         for detail_data in details_data:
             offer_type = detail_data.get('offer_type')
-            if offer_type:
+            if not offer_type:
+                raise serializers.ValidationError(
+                    {'offer_type': 'offer_type ist erforderlich um ein Detail zu aktualisieren.'})
+            try:
                 detail = instance.offer_details.get(offer_type=offer_type)
-                for key, value in detail_data.items():
-                    setattr(detail, key, value)
-                detail.save()
+            except OfferDetail.DoesNotExist:
+                raise serializers.ValidationError(
+                    {'offer_type': f'Kein Detail mit offer_type "{offer_type}" gefunden.'})
+            for key, value in detail_data.items():
+                setattr(detail, key, value)
+            detail.save()
         return instance
 
     class Meta:
